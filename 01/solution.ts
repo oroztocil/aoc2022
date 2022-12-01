@@ -1,36 +1,20 @@
 import { readFileSync } from "fs";
 import { tests } from "./tests";
 
-function alg1(input: string): number {
-    let maxSum = 0;
-    let currentSum = 0;
+const sumArray = (arr: number[]): number =>
+    arr.reduce((sum, val) => sum + val, 0);
 
-    input.split("\n").forEach(line => {
-        if (line === "") {
-            if (currentSum > maxSum) {
-                maxSum = currentSum;
-            }
+const getSortedLoads = (input: string): number[] => 
+    input.split("\n\n")
+        .map(x => x.split("\n").map(Number))
+        .map(x => sumArray(x))
+        .sort((a, b) => b - a);
 
-            currentSum = 0;
-        } else {
-            currentSum += Number(line);
-        }
-    });
+const alg1 = (input: string): number =>
+    getSortedLoads(input)[0];
 
-    return maxSum;
-}
-
-function sumArray(arr: number[]): number {
-    return arr.reduce((sum, val) => sum + val, 0);
-}
-
-function alg2(input: string): number {
-    const elfItems = input.split("\n\n").map(x => x.split("\n").map(y => Number(y)));
-    const elfLoads = elfItems.map(x => sumArray(x));
-    const biggestLoads = elfLoads.sort((a, b) => b - a);
-    
-    return sumArray(biggestLoads.slice(0, 3));
-}
+const alg2 = (input: string): number =>
+    sumArray(getSortedLoads(input).slice(0, 3));
 
 type Solution = (input: string) => string | number;
 
