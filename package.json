@@ -1,0 +1,14 @@
+{
+  "name": "aoc2022",
+  "version": "1.0.0",
+  "description": "Advent of Code solutions in TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.11.10"
+  }
+}
