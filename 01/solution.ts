@@ -1,5 +1,6 @@
-import { desc, sumArray } from "../utils/arrays";
-import { Problem, runProblems, runTests, Test } from "../utils/execution";
+import { sumArray } from "../utils/arrays";
+import { runProblems, runTests } from "../utils/execution";
+import { desc } from "../utils/sort";
 
 //
 // Solution
@@ -21,30 +22,14 @@ const alg2 = (input: string): number =>
 // Execution
 //
 
-const tests: Test[] = [
-    {
-        solution: alg1,
-        inputFile: "test.txt",
-        expectedResult: 24000
-    },
-    {
-        solution: alg2,
-        inputFile: "test.txt",
-        expectedResult: 45000
-    }
-]
+process.exitCode = runTests([
+    { solution: alg1, expectedResult: 24000 },
+    { solution: alg2, expectedResult: 45000 },
+]);
 
-runTests(tests);
-
-const problems: Problem[] = [
-    {
-        solution: alg1,
-        inputFile: "input.txt",
-    },
-    {
-        solution: alg2,
-        inputFile: "input.txt",
-    }
-]
-
-runProblems(problems);
+if (!process.env.TESTS_ONLY) {
+    runProblems([
+        { solution: alg1 },
+        { solution: alg2 },
+    ]);
+}

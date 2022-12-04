@@ -1,4 +1,4 @@
-import { Problem, runProblems, runTests, Test } from "../utils/execution";
+import { runProblems, runTests } from "../utils/execution";
 import { Interval } from "../utils/intervals";
 
 //
@@ -30,30 +30,14 @@ const swallowingWordsWhileGivingHead = (input: string): number =>
 // Execution
 //
 
-const tests: Test[] = [
-    {
-        solution: allTheseElvesDrinkingLoversSpit,
-        inputFile: "test.txt",
-        expectedResult: 2
-    },
-    {
-        solution: swallowingWordsWhileGivingHead,
-        inputFile: "test.txt",
-        expectedResult: 4
-    }
-]
+process.exitCode = runTests([
+    { solution: allTheseElvesDrinkingLoversSpit, expectedResult: 2 },
+    { solution: swallowingWordsWhileGivingHead, expectedResult: 4 },
+]);
 
-runTests(tests);
-
-const problems: Problem[] = [
-    {
-        solution: allTheseElvesDrinkingLoversSpit,
-        inputFile: "input.txt",
-    },
-    {
-        solution: swallowingWordsWhileGivingHead,
-        inputFile: "input.txt",
-    }
-]
-
-runProblems(problems);
+if (!process.env.TESTS_ONLY) {
+    runProblems([
+        { solution: allTheseElvesDrinkingLoversSpit },
+        { solution: swallowingWordsWhileGivingHead },
+    ]);
+}

@@ -1,4 +1,4 @@
-import { Problem, runProblems, runTests, Test } from "../utils/execution";
+import { runProblems, runTests } from "../utils/execution";
 
 //
 // Solution
@@ -43,7 +43,7 @@ const getBigBrainMoves = (codes: [string, string]): [Move, Move] => {
     return [first, second];
 }
 
-type MoveFunc =  (codes: [string, string]) => [Move, Move];
+type MoveFunc = (codes: [string, string]) => [Move, Move];
 
 const fuckMeUpScotty = (input: string, moveFunc: MoveFunc): number =>
     input.split("\n")
@@ -56,30 +56,14 @@ const fuckMeUpScotty = (input: string, moveFunc: MoveFunc): number =>
 // Execution
 //
 
-const tests: Test[] = [
-    {
-        solution: input => fuckMeUpScotty(input, getStupidMoves),
-        inputFile: "test.txt",
-        expectedResult: 15
-    },
-    {
-        solution: input => fuckMeUpScotty(input, getBigBrainMoves),
-        inputFile: "test.txt",
-        expectedResult: 12
-    }
-]
+process.exitCode = runTests([
+    { solution: input => fuckMeUpScotty(input, getStupidMoves), expectedResult: 15 },
+    { solution: input => fuckMeUpScotty(input, getBigBrainMoves), expectedResult: 12 },
+]);
 
-runTests(tests);
-
-const problems: Problem[] = [
-    {
-        solution: input => fuckMeUpScotty(input, getStupidMoves),
-        inputFile: "input.txt",
-    },
-    {
-        solution: input => fuckMeUpScotty(input, getBigBrainMoves),
-        inputFile: "input.txt",
-    }
-]
-
-runProblems(problems);
+if (!process.env.TESTS_ONLY) {
+    runProblems([
+        { solution: input => fuckMeUpScotty(input, getStupidMoves) },
+        { solution: input => fuckMeUpScotty(input, getBigBrainMoves) },
+    ]);
+}

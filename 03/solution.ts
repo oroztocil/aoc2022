@@ -1,5 +1,5 @@
 import { splitArray } from "../utils/arrays";
-import { Problem, runProblems, runTests, Test } from "../utils/execution";
+import { runProblems, runTests } from "../utils/execution";
 import { intersect } from "../utils/sets";
 
 //
@@ -38,30 +38,14 @@ const inJavascriptBruh = (input: string): number => {
 // Execution
 //
 
-const tests: Test[] = [
-    {
-        solution: notDoingBitwiseStuff,
-        inputFile: "test.txt",
-        expectedResult: 157
-    },
-    {
-        solution: inJavascriptBruh,
-        inputFile: "test.txt",
-        expectedResult: 70
-    }
-]
+process.exitCode = runTests([
+    { solution: notDoingBitwiseStuff, expectedResult: 157 },
+    { solution: inJavascriptBruh, expectedResult: 70 },
+]);
 
-runTests(tests);
-
-const problems: Problem[] = [
-    {
-        solution: notDoingBitwiseStuff,
-        inputFile: "input.txt",
-    },
-    {
-        solution: inJavascriptBruh,
-        inputFile: "input.txt",
-    }
-]
-
-runProblems(problems);
+if (!process.env.TESTS_ONLY) {
+    runProblems([
+        { solution: notDoingBitwiseStuff },
+        { solution: inJavascriptBruh },
+    ]);
+}

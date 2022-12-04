@@ -6,5 +6,3 @@ export const splitArray = <T>(arr: T[], subLength: number): T[][] =>
         { length: (arr.length + subLength - 1) / subLength },
         () => arr.splice(0, subLength)
     );
-
-export const desc = (a: number, b: number): number => b - a;
