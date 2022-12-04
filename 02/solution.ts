@@ -1,4 +1,4 @@
-import { Problem, runProblems, runTests, Test } from "../utils";
+import { Problem, runProblems, runTests, Test } from "../utils/execution";
 
 //
 // Solution

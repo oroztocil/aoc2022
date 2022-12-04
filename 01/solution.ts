@@ -1,5 +1,5 @@
-import { desc, sumArray } from "../arrays";
-import { Problem, runProblems, runTests, Test } from "../utils";
+import { desc, sumArray } from "../utils/arrays";
+import { Problem, runProblems, runTests, Test } from "../utils/execution";
 
 //
 // Solution

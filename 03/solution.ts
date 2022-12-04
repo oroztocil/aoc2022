@@ -1,6 +1,6 @@
-import { splitArray } from "../arrays";
-import { intersect } from "../sets";
-import { Problem, runProblems, runTests, Test } from "../utils";
+import { splitArray } from "../utils/arrays";
+import { Problem, runProblems, runTests, Test } from "../utils/execution";
+import { intersect } from "../utils/sets";
 
 //
 // Solution
