@@ -7,7 +7,8 @@ import { desc } from "../utils/sort";
 //
 
 const getSortedLoads = (input: string): number[] =>
-    input.split("\n\n")
+    input
+        .split("\n\n")
         .map(x => x.split("\n").map(Number))
         .map(x => sumArray(x))
         .sort(desc);

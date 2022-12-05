@@ -22,13 +22,15 @@ const splitCompartments = (items: number[]): [Set<number>, Set<number>] => {
 }
 
 const notDoingBitwiseStuff = (input: string): number =>
-    input.split("\n")
+    input
+        .trim()
+        .split("\n")
         .map(parseSack)
         .map(splitCompartments)
         .reduce((sum, sackCompartments) => sum + intersect(sackCompartments)[0], 0);
 
 const inJavascriptBruh = (input: string): number => {
-    const lines = input.split("\n")
+    const lines = input.trim().split("\n")
     const sacks = lines.map(items => new Set<number>(parseSack(items)));
     const groupSacks = splitArray(sacks, 3);
     return groupSacks.reduce((sum, group) => sum + intersect(group)[0], 0);

@@ -6,7 +6,9 @@ import { Interval } from "../utils/intervals";
 //
 
 const parseAssignmentPairs = (input: string): [Interval, Interval][] =>
-    input.split("\n")
+    input
+        .trim()
+        .split("\n")
         .map(line => {
             const pair = line.split(",");
             const assignments = pair.map(assignment => {

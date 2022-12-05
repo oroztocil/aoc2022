@@ -1,4 +1,4 @@
-import { Problem, runProblems, runTests, Test } from "../utils/execution";
+import { runProblems, runTests } from "../utils/execution";
 
 //
 // Solution
@@ -12,30 +12,14 @@ const alg2 = (input: string): number => 420;
 // Execution
 //
 
-const tests: Test[] = [
-    {
-        solution: alg1,
-        inputFile: "test.txt",
-        expectedResult: 42
-    },
-    {
-        solution: alg2,
-        inputFile: "test.txt",
-        expectedResult: 420
-    }
-]
+process.exitCode = runTests([
+    { solution: alg1, expectedResult: 42 },
+    { solution: alg2, expectedResult: 420 },
+]);
 
-runTests(tests);
-
-const problems: Problem[] = [
-    {
-        solution: alg1,
-        inputFile: "input.txt",
-    },
-    {
-        solution: alg2,
-        inputFile: "input.txt",
-    }
-]
-
-runProblems(problems);
+if (!process.env.TESTS_ONLY) {
+    runProblems([
+        { solution: alg1 },
+        { solution: alg2 },
+    ]);
+}

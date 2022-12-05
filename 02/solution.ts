@@ -46,7 +46,9 @@ const getBigBrainMoves = (codes: [string, string]): [Move, Move] => {
 type MoveFunc = (codes: [string, string]) => [Move, Move];
 
 const fuckMeUpScotty = (input: string, moveFunc: MoveFunc): number =>
-    input.split("\n")
+    input
+        .trim()
+        .split("\n")
         .reduce((total, game) => {
             const [a, b] = moveFunc(game.split(" ") as [string, string]);
             return total + score[a][b];
