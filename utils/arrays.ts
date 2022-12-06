@@ -6,3 +6,6 @@ export const splitArray = <T>(arr: T[], subLength: number): T[][] =>
         { length: (arr.length + subLength - 1) / subLength },
         () => arr.splice(0, subLength)
     );
+
+export const range = (from: number, to: number, step: number = 1) =>
+    Array.from({ length: (to - from) / step + 1 }, (_, i) => from + i * step);

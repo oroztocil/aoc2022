@@ -6,6 +6,7 @@ const DEFAULT_PROBLEM_INPUT = "input.txt";
 export type Problem = {
     solution: (input: string) => string | number,
     inputFile?: string,
+    input?: string
 }
 
 export type Test = Problem & {
@@ -14,7 +15,7 @@ export type Test = Problem & {
 
 export const runProblems = (problems: Problem[]) => {
     problems.forEach((problem, index) => {
-        const input = readFileSync(problem.inputFile ?? DEFAULT_PROBLEM_INPUT, "utf-8");
+        const input = problem.input ?? readFileSync(problem.inputFile ?? DEFAULT_PROBLEM_INPUT, "utf-8");
         const result = problem.solution(input);
 
         console.log(`Result ${index + 1}: ${result}`)
@@ -25,7 +26,7 @@ export const runTests = (tests: Test[]): number => {
     let resultCode = 0;
 
     tests.forEach((test, index) => {
-        const input = readFileSync(test.inputFile ?? DEFAULT_TEST_INPUT, "utf-8");
+        const input = test.input ?? readFileSync(test.inputFile ?? DEFAULT_TEST_INPUT, "utf-8");
         const result = test.solution(input);
     
         if (result === test.expectedResult) {
