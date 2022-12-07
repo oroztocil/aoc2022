@@ -11,15 +11,12 @@ class Directory {
         public name: string,
         public parent: Directory | undefined,
         public subDirs: Directory[] = [],
-        public fileSizes: number[] = [],
+        public fileSize = 0,
         public listed = false
     ) { }
 
-    getSize = (): number => {
-        const myFileSize = sumArray(this.fileSizes);
-        const subDirSize = sumArray(this.subDirs.map(x => x.getSize()));
-        return myFileSize + subDirSize;
-    }
+    getSize = (): number =>
+        this.fileSize + sumArray(this.subDirs.map(x => x.getSize()));
 
     getSizes = (): number[] => {
         const mySize = this.getSize();
@@ -43,7 +40,7 @@ type Command = {
 
 type CommandHandler = (state: ParserState, args: string[]) => ParserState;
 
-const processCommand = (state: ParserState, command: Command): ParserState => {
+const resolveFileSystem = (commands: Command[]): Directory => {
     const commandProcessor: Record<string, CommandHandler> = {
         cd: (state: ParserState, args: string[]): ParserState => {
             const destination = args[0];
@@ -68,7 +65,7 @@ const processCommand = (state: ParserState, command: Command): ParserState => {
 
                 // IDGAF
                 cd.subDirs = subDirs.map(pair => new Directory(pair[1], state.cd));
-                cd.fileSizes = fileSizes;
+                cd.fileSize = sumArray(fileSizes);
                 cd.listed = true;
             }
 
@@ -76,8 +73,16 @@ const processCommand = (state: ParserState, command: Command): ParserState => {
         }
     }
 
-    return commandProcessor[command.name](state, command.args);
+    const finalState = commands.reduce(
+        (state, command) => commandProcessor[command.name](state, command.args),
+        {
+            root: new Directory("/", undefined),
+            cd: undefined
+        } as ParserState);
+
+    return finalState.root;
 }
+
 
 const parseCommands = (input: string): Command[] =>
     input
@@ -88,12 +93,6 @@ const parseCommands = (input: string): Command[] =>
         .map(line => line.replace(/\n/g, " "))
         .map(line => line.split(" "))
         .map(tokens => ({ name: tokens[0], args: tokens.slice(1) }));
-
-const resolveFileSystem = (commands: Command[]): Directory =>
-    commands.reduce(processCommand, {
-        root: new Directory("/", undefined),
-        cd: undefined
-    }).root;
 
 const elonReviewedThisCode = (input: string): number => {
     const commands = parseCommands(input);
