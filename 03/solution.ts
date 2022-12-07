@@ -1,4 +1,4 @@
-import { splitArray } from "../utils/arrays";
+import { chunkArray } from "../utils/arrays";
 import { runProblems, runTests } from "../utils/execution";
 import { intersect } from "../utils/sets";
 
@@ -32,7 +32,7 @@ const notDoingBitwiseStuff = (input: string): number =>
 const inJavascriptBruh = (input: string): number => {
     const lines = input.trim().split("\n")
     const sacks = lines.map(items => new Set<number>(parseSack(items)));
-    const groupSacks = splitArray(sacks, 3);
+    const groupSacks = chunkArray(sacks, 3);
     return groupSacks.reduce((sum, group) => sum + intersect(group)[0], 0);
 }
 
