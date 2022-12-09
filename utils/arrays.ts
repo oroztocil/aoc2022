@@ -15,3 +15,9 @@ export const inArray2d = <T>(arr: T[][], row: number, column: number) =>
 
 export const transpose = <T>(arr: T[][]) =>
     arr[0].map((_, col) => arr.map(row => row[col]));
+
+export const forEachConsPair = <T>(arr: T[], func: (a: T, b: T) => void) => {
+    for (let i = 0; i < arr.length - 1; i++) {
+        func(arr[i], arr[i + 1])
+    }
+}

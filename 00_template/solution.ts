@@ -14,12 +14,12 @@ const alg2 = (input: string): number => 420;
 
 process.exitCode = runTests([
     { solution: alg1, expectedResult: 42 },
-    { solution: alg2, expectedResult: 420 },
+    // { solution: alg2, expectedResult: 420 },
 ]);
 
 if (!process.env.TESTS_ONLY) {
     runProblems([
-        { solution: alg1 },
-        { solution: alg2 },
+        // { solution: alg1 },
+        // { solution: alg2 },
     ]);
 }
