@@ -1,4 +1,4 @@
-import { runProblems, runTests } from "../utils/execution.js";
+import { runProblems, runTests } from "../utils/execution";
 
 //
 // Solution

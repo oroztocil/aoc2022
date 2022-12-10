@@ -18,7 +18,7 @@ export const runProblems = (problems: Problem[]) => {
         const input = problem.input ?? readFileSync(problem.inputFile ?? DEFAULT_PROBLEM_INPUT, "utf-8");
         const result = problem.solution(input);
 
-        console.log(`Result ${index + 1}: ${result}`)
+        console.log(`Result ${index + 1}:\n${result}`)
     });   
 }
 
@@ -32,7 +32,7 @@ export const runTests = (tests: Test[]): number => {
         if (result === test.expectedResult) {
             console.log(`Test ${index + 1} OK.`);
         } else {
-            console.log(`Test ${index + 1} FAILED. Expected: ${test.expectedResult}. Got: ${result}.`);
+            console.log(`Test ${index + 1} FAILED. Expected:\n${test.expectedResult}\nGot:\n${result}.`);
             resultCode = 1;
         }
     });
