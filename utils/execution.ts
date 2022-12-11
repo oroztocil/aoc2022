@@ -4,13 +4,13 @@ const DEFAULT_TEST_INPUT = "test.txt";
 const DEFAULT_PROBLEM_INPUT = "input.txt";
 
 export type Problem = {
-    solution: (input: string) => string | number,
+    solution: (input: string) => string | number | bigint,
     inputFile?: string,
     input?: string
 }
 
 export type Test = Problem & {
-    expectedResult: string | number
+    expectedResult: string | number | bigint
 };
 
 export const runProblems = (problems: Problem[]) => {
