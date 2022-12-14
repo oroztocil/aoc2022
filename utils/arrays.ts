@@ -7,8 +7,13 @@ export const chunkArray = <T>(arr: T[], subLength: number): T[][] =>
         () => arr.splice(0, subLength)
     );
 
-export const range = (from: number, to: number, step: number = 1) =>
-    Array.from({ length: (to - from) / step + 1 }, (_, i) => from + i * step);
+export const range = (from: number, to: number, step?: number) => {
+    const s = step ?? from < to ? 1 : -1;
+    return Array.from({ length: (to - from) / s + 1 }, (_, i) => from + i * s);
+}
+
+export const createArray2d = <T>(width: number, height: number, initializer: () => T): T[][] =>
+    Array.from({ length: width }, () => Array.from({ length: height }, initializer));
 
 export const inArray2d = <T>(arr: T[][], row: number, column: number) =>
     row >= 0 && row < arr.length && column >= 0 && column < arr[row].length;
