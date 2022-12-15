@@ -23,6 +23,11 @@ export const transpose = <T>(arr: T[][]) =>
 
 export const forEachConsPair = <T>(arr: T[], func: (a: T, b: T) => void) => {
     for (let i = 0; i < arr.length - 1; i++) {
-        func(arr[i], arr[i + 1])
+        func(arr[i], arr[i + 1]);
     }
 }
+
+export type Coords2d = [x: number, y: number];
+
+export const coords2dKey = (coords: Coords2d): string =>
+    `${coords[0]}:${coords[1]}`;
