@@ -1,5 +1,6 @@
-import { Coords2d, coords2dKey } from "../utils/arrays";
+import { Coords2d, coords2dKey, sumArray } from "../utils/arrays";
 import { runProblems, runTests } from "../utils/execution";
+import { Interval } from "../utils/intervals";
 
 //
 // Solution
@@ -27,33 +28,30 @@ const getBlockedRowIntervals = (
     row: number,
     records: SensorRecord[],
     xMin = Number.MIN_SAFE_INTEGER,
-    xMax = Number.MAX_SAFE_INTEGER): { count: number, blockedIntervals: number[][] } => {
-    const blockedIntervals = records.map(r => {
+    xMax = Number.MAX_SAFE_INTEGER): { count: number, intervals: Interval[] } => {
+    const recordIntervals = records.map(r => {
         const manDist = Math.abs(r.sx - r.bx) + Math.abs(r.sy - r.by);
         const xDist = Math.max(0, manDist - Math.abs(r.sy - row));
-        return [Math.max(xMin, r.sx - xDist), Math.min(xMax, r.sx + xDist)];
-    }).filter(int => int[0] !== int[1])
-        .sort((a, b) => a[0] - b[0]);
+        return new Interval(
+            Math.max(xMin, r.sx - xDist),
+            Math.min(xMax, r.sx + xDist));
+    }).filter(int => int.length > 0);
 
-    let count = 0;
-    let right = xMin;
+    const intervals = Interval.unionAll(...recordIntervals);
+    const count = sumArray(intervals.map(int => int.length + 1));
 
-    blockedIntervals.forEach(int => {
-        count += Math.max(0, int[1] - Math.max(right, int[0]) + 1);
-        right = Math.max(right, int[1] + 1);
-    });
-
-    return { count, blockedIntervals };
+    return { count, intervals };
 }
 
 const findBeaconSpot = (records: SensorRecord[], xMax: number): Coords2d => {
     for (let y = 0; y <= xMax; y++) {
-        const { count, blockedIntervals } = getBlockedRowIntervals(y, records, 0, xMax);
+        const { count, intervals } = getBlockedRowIntervals(y, records, 0, xMax);
         if (count <= xMax) {
-            for (let i = 0; i < blockedIntervals.length - 1; i++) {
-                const [i1, i2] = [blockedIntervals[i], blockedIntervals[i + 1]]
-                if (i1[1] + 1 < i2[0]) {
-                    return [i1[1] + 1, y];
+            for (let i = 0; i < intervals.length - 1; i++) {
+                const [i1, i2] = [intervals[i], intervals[i + 1]]
+                if (i1.to + 1 < i2.from) {
+                    const x = i1.to + 1;
+                    return [i1.to + 1, y];
                 }
             }
         }
@@ -71,9 +69,9 @@ const leEpicBeacon = (input: string, row: number): number => {
     return blockedInRow - beaconsInRow;
 }
 
-const shrekIsTheOGNimby = (input: string, limit: number): number => {
+const shrekIsTheOGNimby = (input: string, xMax: number): number => {
     const records = parseInput(input);
-    const [x, y] = findBeaconSpot(records, limit);
+    const [x, y] = findBeaconSpot(records, xMax);
     return x * 4000000 + y;
 }
 
