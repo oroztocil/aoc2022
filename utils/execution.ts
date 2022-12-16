@@ -16,7 +16,9 @@ export type Test = Problem & {
 export const runProblems = (problems: Problem[]) => {
     problems.forEach((problem, index) => {
         const input = problem.input ?? readFileSync(problem.inputFile ?? DEFAULT_PROBLEM_INPUT, "utf-8");
+        console.time(`Result ${index + 1}`);
         const result = problem.solution(input);
+        console.timeEnd(`Result ${index + 1}`);
 
         console.log(`Result ${index + 1}:\n${result}`)
     });   
@@ -28,7 +30,6 @@ export const runTests = (tests: Test[]): number => {
     tests.forEach((test, index) => {
         const input = test.input ?? readFileSync(test.inputFile ?? DEFAULT_TEST_INPUT, "utf-8");
         const result = test.solution(input);
-    
         if (result === test.expectedResult) {
             console.log(`Test ${index + 1} OK.`);
         } else {
