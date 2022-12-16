@@ -27,6 +27,13 @@ export const forEachConsPair = <T>(arr: T[], func: (a: T, b: T) => void) => {
     }
 }
 
+export const getAllArrayPairs = <T>(arr: T[]): [T, T][] =>
+    arr.flatMap(
+        (item, index) => arr
+            .slice(index + 1)
+            .map(other => [item, other] as [T, T])
+    );
+
 export type Coords2d = [x: number, y: number];
 
 export const coords2dKey = (coords: Coords2d): string =>
