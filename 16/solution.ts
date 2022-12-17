@@ -1,5 +1,6 @@
 import { createArray2d } from "../utils/arrays";
 import { runProblems, runTests } from "../utils/execution";
+import { floydWarshall } from "../utils/search";
 
 //
 // Solution
@@ -61,33 +62,25 @@ class Solver {
         });
 
         this.pathCosts = floydWarshall(adjacent);
-        this.positiveValves = [...valves.entries()].filter(([_, valve]) => valve.rate > 0).map(([_, valve]) => valve);
+        this.positiveValves = [...valves.entries()]
+            .filter(([_, valve]) => valve.rate > 0).map(([_, valve]) => valve);
     }
 
-    getAvailableMoves = (worker: WorkerState, visited: Set<number>) =>
+    availableMoves = (worker: WorkerState, visited: Set<number>) =>
         this.positiveValves
             .filter(valve => !visited.has(valve.index))
-            .filter(valve => 0 < this.getTimeAfterMove(worker, valve.index));
+            .filter(valve => 0 < this.timeAfterMove(worker, valve.index));
 
-    getTimeAfterMove = (worker: WorkerState, valveIndex: number) =>
+    timeAfterMove = (worker: WorkerState, valveIndex: number) =>
         worker.time - this.pathCosts[worker.location][valveIndex] - 1;
-}
 
-const floydWarshall = (graph: number[][]): number[][] => {
-    const dists = [...graph];
-    const n = dists.length;
-
-    for (let k = 0; k < n; k++) {
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n; j++) {
-                if (dists[i][k] + dists[k][j] < dists[i][j]) {
-                    dists[i][j] = dists[i][k] + dists[k][j];
-                }
+    workerStateAfterMove = (worker: WorkerState, move: Valve | null) =>
+        move != null
+            ? {
+                time: this.timeAfterMove(worker, move.index),
+                location: move.index
             }
-        }
-    }
-
-    return dists;
+            : { time: 0, location: worker.location };
 }
 
 const elephantOff = (input: string, timeLimit: number, startKey: string): number => {
@@ -106,12 +99,11 @@ const elephantOff = (input: string, timeLimit: number, startKey: string): number
 
     while (stack.length > 0) {
         const current = stack.pop()!;
-        const moves = solver.getAvailableMoves(current.me, current.visited);
+        const moves = solver.availableMoves(current.me, current.visited);
         const next: Part1State[] = moves
             .map(valve => {
-                const remainingTime = solver.getTimeAfterMove(current.me, valve.index);
-                const newVisited = new Set(current.visited);
-                newVisited.add(valve.index);
+                const remainingTime = solver.timeAfterMove(current.me, valve.index);
+                const newVisited = new Set([...current.visited, valve.index]);
                 return {
                     me: { time: remainingTime, location: valve.index },
                     flow: current.flow + remainingTime * valve.rate,
@@ -147,8 +139,8 @@ const elephantOn = (input: string, timeLimit: number, startKey: string): number 
     while (stack.length > 0) {
         const current = stack.pop()!;
 
-        const myMoves = [...solver.getAvailableMoves(current.me, current.visited), null];
-        const eleMoves = [...solver.getAvailableMoves(current.ele, current.visited), null];
+        const myMoves = [...solver.availableMoves(current.me, current.visited), null];
+        const eleMoves = [...solver.availableMoves(current.ele, current.visited), null];
 
         const movePairs = myMoves.flatMap(
             myMove => eleMoves
@@ -157,23 +149,11 @@ const elephantOn = (input: string, timeLimit: number, startKey: string): number 
 
         if (movePairs.length > 0) {
             const next: Part2State[] = movePairs.map(([myMove, eleMove]) => {
-                const myNext: WorkerState = myMove != null
-                    ? {
-                        time: solver.getTimeAfterMove(current.me, myMove.index),
-                        location: myMove.index
-                    }
-                    : { time: 0, location: current.me.location };
+                const myNext = solver.workerStateAfterMove(current.me, myMove);
+                const eleNext = solver.workerStateAfterMove(current.ele, myMove);
 
-                const eleNext: WorkerState = eleMove != null
-                    ? {
-                        time: solver.getTimeAfterMove(current.ele, eleMove.index),
-                        location: eleMove.index
-                    }
-                    : { time: 0, location: current.ele.location };
-
-                const newVisited = new Set(current.visited);
-                newVisited.add(myNext.location);
-                newVisited.add(eleNext.location);
+                const newVisited = new Set(
+                    [...current.visited, myNext.location, eleNext.location]);
 
                 const newFlow = current.flow
                     + myNext.time * (myMove?.rate ?? 0)
