@@ -26,7 +26,7 @@ const getTreeStats = ([tx, ty]: [number, number], trees: number[][]): TreeStats 
         let visibleTrees = 0;
         let blockedView = false;
 
-        while (inArray2d(trees, y, x)) {
+        while (inArray2d(trees, x, y)) {
             if (!blockedView) {
                 visibleTrees++;
             }

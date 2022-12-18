@@ -4,6 +4,10 @@ import { runProblems, runTests } from "../utils/execution";
 // Solution
 //
 
+const parseInput = (input: string) => {
+    
+}
+
 const alg1 = (input: string): number => 42;
 
 const alg2 = (input: string): number => 420;
