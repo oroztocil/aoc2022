@@ -63,3 +63,6 @@ export const inArray2d = <T>(arr: T[][], x: number, y: number) =>
 
 export const inArray3d = <T>(arr: T[][][], [x, y, z]: Coords3d) =>
     x >= 0 && x < arr.length && y >= 0 && y < arr[x].length && z >= 0 && z < arr[x][y].length;
+
+export const circularIndex = <T>(arr: T[], index: number): number =>
+    (index % arr.length + arr.length) % arr.length;
