@@ -1,4 +1,4 @@
-import { createArray2d } from "../utils/arrays";
+import { createArray2d, multiArrayProduct, sumArray } from "../utils/arrays";
 import { runProblems, runTests } from "../utils/execution";
 import { floydWarshall } from "../utils/search";
 
@@ -28,25 +28,18 @@ const parseInput = (input: string): Map<string, Valve> => {
     return new Map<string, Valve>(valves);
 }
 
+interface SearchState {
+    flow: number;
+    visited: Set<number>;
+    workers: WorkerState[];
+}
+
 interface WorkerState {
     location: number;
     time: number;
 }
 
-interface SearchState {
-    flow: number;
-    visited: Set<number>;
-}
-
-interface Part1State extends SearchState {
-    me: WorkerState;
-}
-
-interface Part2State extends Part1State {
-    ele: WorkerState;
-}
-
-class Solver {
+class GraphManager {
     private readonly pathCosts: number[][];
     private readonly positiveValves: Valve[];
 
@@ -83,85 +76,51 @@ class Solver {
             : { time: 0, location: worker.location };
 }
 
-const elephantOff = (input: string, timeLimit: number, startKey: string): number => {
+const solveUsingStaticProgramming = (
+    input: string,
+    timeLimit: number,
+    startKey: string,
+    workerCount: number): number => {
     const valves = parseInput(input);
-    const solver = new Solver(valves);
+    const solver = new GraphManager(valves);
 
     const startIndex = valves.get(startKey)!.index;
-    const startState: Part1State = {
-        me: { location: startIndex, time: timeLimit },
+    const startState: SearchState = {
+        workers: Array.from(
+            { length: workerCount },
+            () => ({ location: startIndex, time: timeLimit })),
         flow: 0,
         visited: new Set<number>([startIndex])
     }
 
-    const stack: Part1State[] = [startState];
-    let best = -1;
-
-    while (stack.length > 0) {
-        const current = stack.pop()!;
-        const moves = solver.availableMoves(current.me, current.visited);
-        const next: Part1State[] = moves
-            .map(valve => {
-                const remainingTime = solver.timeAfterMove(current.me, valve.index);
-                const newVisited = new Set([...current.visited, valve.index]);
-                return {
-                    me: { time: remainingTime, location: valve.index },
-                    flow: current.flow + remainingTime * valve.rate,
-                    visited: newVisited
-                };
-            });
-
-        if (next.length > 0) {
-            stack.push(...next);
-        } else {
-            best = Math.max(best, current.flow);
-        }
-    }
-
-    return best;
-}
-
-const elephantOn = (input: string, timeLimit: number, startKey: string): number => {
-    const valves = parseInput(input);
-    const solver = new Solver(valves);
-
-    const startIndex = valves.get(startKey)!.index;
-    const startState: Part2State = {
-        me: { location: startIndex, time: timeLimit },
-        ele: { location: startIndex, time: timeLimit },
-        flow: 0,
-        visited: new Set<number>([startIndex])
-    }
-
-    const stack: Part2State[] = [startState];
+    const stack: SearchState[] = [startState];
     let best = -1;
 
     while (stack.length > 0) {
         const current = stack.pop()!;
 
-        const myMoves = [...solver.availableMoves(current.me, current.visited), null];
-        const eleMoves = [...solver.availableMoves(current.ele, current.visited), null];
+        const workerMoves = current.workers.map(worker =>
+            [...solver.availableMoves(worker, current.visited), null]);
 
-        const movePairs = myMoves.flatMap(
-            myMove => eleMoves
-                .filter(eleMove => myMove !== eleMove)
-                .map(eleMove => [myMove, eleMove]));
+        let moveTuples = multiArrayProduct(workerMoves);
+        moveTuples = moveTuples.filter(tuple =>
+            tuple.length === new Set(tuple).size && tuple.some(val => val != null));
 
-        if (movePairs.length > 0) {
-            const next: Part2State[] = movePairs.map(([myMove, eleMove]) => {
-                const myNext = solver.workerStateAfterMove(current.me, myMove);
-                const eleNext = solver.workerStateAfterMove(current.ele, myMove);
 
-                const newVisited = new Set(
-                    [...current.visited, myNext.location, eleNext.location]);
+        if (moveTuples.length > 0) {
+            const next: SearchState[] = moveTuples.map(moves => {
+                const nextWorkerStates = moves.map((move, index) => move != null
+                    ? {
+                        time: solver.timeAfterMove(current.workers[index], move.index),
+                        location: move.index
+                    }
+                    : { time: 0, location: 0 });
 
-                const newFlow = current.flow
-                    + myNext.time * (myMove?.rate ?? 0)
-                    + eleNext.time * (eleMove?.rate ?? 0);
+                const newVisited = new Set([...current.visited, ...nextWorkerStates.map(w => w.location)]);
+                const newFlow = current.flow + sumArray(nextWorkerStates.map((w, i) => w.time * (moves[i]?.rate ?? 0)));
 
                 return {
-                    me: myNext,
-                    ele: eleNext,
+                    workers: nextWorkerStates,
                     flow: newFlow,
                     visited: newVisited
                 };
@@ -178,18 +137,19 @@ const elephantOn = (input: string, timeLimit: number, startKey: string): number 
     return best;
 }
 
+
 //
 // Execution
 //
 
 process.exitCode = runTests([
-    { solution: input => elephantOff(input, 30, "AA"), expectedResult: 1651 },
-    { solution: input => elephantOn(input, 26, "AA"), expectedResult: 1707 },
+    { solution: input => solveUsingStaticProgramming(input, 30, "AA", 1), expectedResult: 1651 },
+    { solution: input => solveUsingStaticProgramming(input, 26, "AA", 2), expectedResult: 1707 },
 ]);
 
 if (!process.env.TESTS_ONLY) {
     runProblems([
-        { solution: input => elephantOff(input, 30, "AA") },
-        { solution: input => elephantOn(input, 26, "AA") },
+        { solution: input => solveUsingStaticProgramming(input, 30, "AA", 1) },
+        { solution: input => solveUsingStaticProgramming(input, 26, "AA", 2) },
     ]);
 }

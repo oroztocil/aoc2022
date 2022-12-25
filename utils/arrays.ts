@@ -66,3 +66,8 @@ export const inArray3d = <T>(arr: T[][][], [x, y, z]: Coords3d) =>
 
 export const circularIndex = <T>(arr: T[], index: number): number =>
     (index % arr.length + arr.length) % arr.length;
+
+export const multiArrayProduct = <T>(arr: T[][]): T[][] =>
+    arr.length < 2
+        ? arr[0].map(el => [el])
+        : arr.reduce((a, b) => a.flatMap(x => b.map(y => [...x, y])), [[]] as T[][]);

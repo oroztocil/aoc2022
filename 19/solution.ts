@@ -166,7 +166,6 @@ const evalBlueprint = (blueprint: Blueprint, timeLimit: number, index: number): 
         time: timeLimit
     };
 
-    // const visited = new Set<string>();
     const visited = new BigSet();
     let stack: State[] = [initState];
     let bestResult = 0;
@@ -178,7 +177,6 @@ const evalBlueprint = (blueprint: Blueprint, timeLimit: number, index: number): 
             bestResult = state.geodes;
             bestState = state;
         }
-        // console.log(stack.length, state.time, bestResult);
         if (state.time > 0) {
             const nextStates = getActionStates(state, blueprint, visited);
             nextStates.forEach(ns => visited.add(getStateKey(ns)))
@@ -188,7 +186,6 @@ const evalBlueprint = (blueprint: Blueprint, timeLimit: number, index: number): 
 
     console.log("finished " + index + " best score " + bestResult);
     console.log(bestState);
-
 
     return bestResult;
 }
@@ -211,14 +208,13 @@ const alg2 = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    // { solution: alg1, inputFile: "input_sm.txt", expectedResult: 1 },
-    // { solution: alg1, expectedResult: 33 },
-    // { solution: alg2, expectedResult: 420 },
+    { solution: alg1, expectedResult: 33 },
+    { solution: alg2, expectedResult: 420 },
 ]);
 
 if (!process.env.TESTS_ONLY) {
     runProblems([
-        // { solution: alg1 },
+        { solution: alg1 },
         { solution: alg2, inputFile: "input_sm.txt" },
     ]);
 }
