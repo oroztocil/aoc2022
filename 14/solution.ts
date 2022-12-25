@@ -94,8 +94,8 @@ const becauseItWasALittleShellfish = (input: string): number =>
 //
 
 process.exitCode = runTests([
-    { solution: whyCouldntTheShrimpShareTheSandcastle, expectedResult: 24 },
-    { solution: becauseItWasALittleShellfish, expectedResult: 93 },
+    { solution: whyCouldntTheShrimpShareTheSandcastle, expected: 24 },
+    { solution: becauseItWasALittleShellfish, expected: 93 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

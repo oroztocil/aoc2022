@@ -70,9 +70,9 @@ const stillGotIt = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: covidIsFake, input: "1,1,1\n2,1,1\n", expectedResult: 10 },
-    { solution: covidIsFake, expectedResult: 64 },
-    { solution: stillGotIt, expectedResult: 58 },
+    { solution: covidIsFake, input: "1,1,1\n2,1,1\n", expected: 10 },
+    { solution: covidIsFake, expected: 64 },
+    { solution: stillGotIt, expected: 58 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

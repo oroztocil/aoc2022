@@ -24,8 +24,8 @@ const alg2 = (input: string): number =>
 //
 
 process.exitCode = runTests([
-    { solution: alg1, expectedResult: 24000 },
-    { solution: alg2, expectedResult: 45000 },
+    { solution: alg1, expected: 24000 },
+    { solution: alg2, expected: 45000 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

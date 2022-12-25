@@ -69,8 +69,8 @@ const eatHotChipAndLie = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: evaluateOrDie, expectedResult: 13 },
-    { solution: eatHotChipAndLie, expectedResult: 140 },
+    { solution: evaluateOrDie, expected: 13 },
+    { solution: eatHotChipAndLie, expected: 140 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

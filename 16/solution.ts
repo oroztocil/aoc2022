@@ -183,8 +183,8 @@ const elephantOn = (input: string, timeLimit: number, startKey: string): number 
 //
 
 process.exitCode = runTests([
-    { solution: input => elephantOff(input, 30, "AA"), expectedResult: 1651 },
-    { solution: input => elephantOn(input, 26, "AA"), expectedResult: 1707 },
+    { solution: input => elephantOff(input, 30, "AA"), expected: 1651 },
+    { solution: input => elephantOn(input, 26, "AA"), expected: 1707 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

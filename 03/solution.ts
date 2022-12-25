@@ -41,8 +41,8 @@ const inJavascriptBruh = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: notDoingBitwiseStuff, expectedResult: 157 },
-    { solution: inJavascriptBruh, expectedResult: 70 },
+    { solution: notDoingBitwiseStuff, expected: 157 },
+    { solution: inJavascriptBruh, expected: 70 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

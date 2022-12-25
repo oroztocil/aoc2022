@@ -10,7 +10,7 @@ export type Problem = {
 }
 
 export type Test = Problem & {
-    expectedResult: string | number | bigint
+    expected: string | number | bigint
 };
 
 export const runProblems = (problems: Problem[]) => {
@@ -30,10 +30,10 @@ export const runTests = (tests: Test[]): number => {
     tests.forEach((test, index) => {
         const input = test.input ?? readFileSync(test.inputFile ?? DEFAULT_TEST_INPUT, "utf-8");
         const result = test.solution(input);
-        if (result === test.expectedResult) {
+        if (result === test.expected) {
             console.log(`Test ${index + 1} OK.`);
         } else {
-            console.log(`Test ${index + 1} FAILED. Expected:\n${test.expectedResult}\nGot:\n${result}.`);
+            console.log(`Test ${index + 1} FAILED. Expected:\n${test.expected}\nGot:\n${result}`);
             resultCode = 1;
         }
     });

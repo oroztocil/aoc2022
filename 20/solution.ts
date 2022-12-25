@@ -103,9 +103,9 @@ const alg2 = (input: string): number => 420;
 //
 
 process.exitCode = runTests([
-    { solution: input => alg1(input, 1, 1), expectedResult: 3 },
+    { solution: input => alg1(input, 1, 1), expected: 3 },
     // { solution: input => alg1(input, 1, 1, 1), expectedResult: 3 },
-    { solution: input => alg1(input, 811589153, 10), expectedResult: 1623178306 },
+    { solution: input => alg1(input, 811589153, 10), expected: 1623178306 },
     // { solution: input => alg1(input, 1, 1, 1), expectedResult: 3, input: "1\n2\n-3\n3\n-2\n0\n" }
 ]);
 

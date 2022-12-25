@@ -100,8 +100,8 @@ const sike = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: mathIsRacist, expectedResult: 152 },
-    { solution: sike, expectedResult: 301 },
+    { solution: mathIsRacist, expected: 152 },
+    { solution: sike, expected: 301 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

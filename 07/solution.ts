@@ -115,8 +115,8 @@ const imagineNotSortingNumbersLexicographically = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: elonReviewedThisCode, expectedResult: 95437 },
-    { solution: imagineNotSortingNumbersLexicographically, expectedResult: 24933642 },
+    { solution: elonReviewedThisCode, expected: 95437 },
+    { solution: imagineNotSortingNumbersLexicographically, expected: 24933642 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

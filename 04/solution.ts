@@ -33,8 +33,8 @@ const swallowingWordsWhileGivingHead = (input: string): number =>
 //
 
 process.exitCode = runTests([
-    { solution: allTheseElvesDrinkingLoversSpit, expectedResult: 2 },
-    { solution: swallowingWordsWhileGivingHead, expectedResult: 4 },
+    { solution: allTheseElvesDrinkingLoversSpit, expected: 2 },
+    { solution: swallowingWordsWhileGivingHead, expected: 4 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

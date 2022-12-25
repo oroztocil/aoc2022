@@ -76,8 +76,8 @@ const listenUpPal = (input: string, handler: InstructionHandler): string => {
 //
 
 process.exitCode = runTests([
-    { solution: input => listenUpPal(input, crane9000Handler), expectedResult: "CMZ" },
-    { solution: input => listenUpPal(input, crane9001Handler), expectedResult: "MCD" },
+    { solution: input => listenUpPal(input, crane9000Handler), expected: "CMZ" },
+    { solution: input => listenUpPal(input, crane9001Handler), expected: "MCD" },
 ]);
 
 if (!process.env.TESTS_ONLY) {

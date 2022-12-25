@@ -71,8 +71,8 @@ const gentrifyMeDaddy = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: asmrGptWhen, expectedResult: 21 },
-    { solution: gentrifyMeDaddy, expectedResult: 8 },
+    { solution: asmrGptWhen, expected: 21 },
+    { solution: gentrifyMeDaddy, expected: 8 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

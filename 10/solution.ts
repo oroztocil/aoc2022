@@ -53,9 +53,9 @@ const thatsHowOneReturnsFromTwo = (input: string): string => {
 //
 
 process.exitCode = runTests([
-    { solution: doYouSeeCirclingThrough, expectedResult: 13140 },
+    { solution: doYouSeeCirclingThrough, expected: 13140 },
     {
-        solution: thatsHowOneReturnsFromTwo, expectedResult:
+        solution: thatsHowOneReturnsFromTwo, expected:
             "##..##..##..##..##..##..##..##..##..##..\n" +
             "###...###...###...###...###...###...###.\n" +
             "####....####....####....####....####....\n" +

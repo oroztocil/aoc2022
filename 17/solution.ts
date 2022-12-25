@@ -147,10 +147,10 @@ const getTop = (
 //
 
 process.exitCode = runTests([
-    { solution: input => getTop(input, 10), input: ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>", expectedResult: 17 },
-    { solution: input => getTop(input, 2022), expectedResult: 3068 },
-    { solution: input => getTop(input, 2022), inputFile: "input.txt", expectedResult: 3227 },
-    { solution: input => getTop(input, 1000000000000), expectedResult: 1514285714288 },
+    { solution: input => getTop(input, 10), input: ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>", expected: 17 },
+    { solution: input => getTop(input, 2022), expected: 3068 },
+    { solution: input => getTop(input, 2022), inputFile: "input.txt", expected: 3227 },
+    { solution: input => getTop(input, 1000000000000), expected: 1514285714288 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

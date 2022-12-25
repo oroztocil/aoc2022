@@ -59,8 +59,8 @@ const fuckMeUpScotty = (input: string, moveFunc: MoveFunc): number =>
 //
 
 process.exitCode = runTests([
-    { solution: input => fuckMeUpScotty(input, getStupidMoves), expectedResult: 15 },
-    { solution: input => fuckMeUpScotty(input, getBigBrainMoves), expectedResult: 12 },
+    { solution: input => fuckMeUpScotty(input, getStupidMoves), expected: 15 },
+    { solution: input => fuckMeUpScotty(input, getBigBrainMoves), expected: 12 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

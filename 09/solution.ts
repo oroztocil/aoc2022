@@ -102,8 +102,8 @@ const whereAreMyFriendsTonight = (input: string): number =>
 //
 
 process.exitCode = runTests([
-    { solution: heyComputer, expectedResult: 13 },
-    { solution: whereAreMyFriendsTonight, inputFile: "test2.txt", expectedResult: 36 },
+    { solution: heyComputer, expected: 13 },
+    { solution: whereAreMyFriendsTonight, inputFile: "test2.txt", expected: 36 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

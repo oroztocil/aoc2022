@@ -88,8 +88,8 @@ const bigOoomf = (input: string): bigint => {
 //
 
 process.exitCode = runTests([
-    { solution: smallOomf, expectedResult: 10605 },
-    { solution: bigOoomf, expectedResult: 2713310158n },
+    { solution: smallOomf, expected: 10605 },
+    { solution: bigOoomf, expected: 2713310158n },
 ]);
 
 if (!process.env.TESTS_ONLY) {

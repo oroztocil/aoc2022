@@ -121,8 +121,8 @@ const dunno = (input: string): number => {
 //
 
 process.exitCode = runTests([
-    { solution: bigFlamboyantSon, expectedResult: 31 },
-    { solution: dunno, expectedResult: 29 },
+    { solution: bigFlamboyantSon, expected: 31 },
+    { solution: dunno, expected: 29 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

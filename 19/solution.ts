@@ -108,7 +108,7 @@ const getActionStates = (state: State, blueprint: Blueprint, visited: BigSet): S
         result.push(state);
 
         // Build ore robot
-        if (state.oreRobots < 6 && state.ore >= blueprint.oreRobot.ore) {
+        if (state.oreRobots < 7 && state.ore >= blueprint.oreRobot.ore) {
             result.push({
                 ...state,
                 ore: state.ore - blueprint.oreRobot.ore,
@@ -117,7 +117,7 @@ const getActionStates = (state: State, blueprint: Blueprint, visited: BigSet): S
         }
 
         // Build clay robot
-        if (state.clayRobots < 8 && state.ore >= blueprint.clayRobot.ore) {
+        if (state.clayRobots < 9 && state.ore >= blueprint.clayRobot.ore) {
             result.push({
                 ...state,
                 ore: state.ore - blueprint.clayRobot.ore,
@@ -126,7 +126,7 @@ const getActionStates = (state: State, blueprint: Blueprint, visited: BigSet): S
         }
 
         // Build obsidian robot
-        if (state.obsidianRobots < 7 && state.ore >= blueprint.obsidianRobot.ore
+        if (state.obsidianRobots < 8 && state.ore >= blueprint.obsidianRobot.ore
             && state.clay >= blueprint.obsidianRobot.clay) {
             result.push({
                 ...state,
@@ -219,6 +219,6 @@ process.exitCode = runTests([
 if (!process.env.TESTS_ONLY) {
     runProblems([
         // { solution: alg1 },
-        { solution: alg2 },
+        { solution: alg2, inputFile: "input_sm.txt" },
     ]);
 }

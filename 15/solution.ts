@@ -80,8 +80,8 @@ const shrekIsTheOGNimby = (input: string, xMax: number): number => {
 //
 
 process.exitCode = runTests([
-    { solution: input => leEpicBeacon(input, 10), expectedResult: 26 },
-    { solution: input => shrekIsTheOGNimby(input, 20), expectedResult: 56000011 },
+    { solution: input => leEpicBeacon(input, 10), expected: 26 },
+    { solution: input => shrekIsTheOGNimby(input, 20), expected: 56000011 },
 ]);
 
 if (!process.env.TESTS_ONLY) {

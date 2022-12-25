@@ -22,16 +22,16 @@ const justDontLikeEm = (input: string): number =>
 //
 
 process.exitCode = runTests([
-    { solution: dontAteElves, input: "mjqjpqmgbljsphdztnvjfqwrcgsmlb", expectedResult: 7 },
-    { solution: dontAteElves, input: "bvwbjplbgvbhsrlpgdmjqwftvncz", expectedResult: 5 },
-    { solution: dontAteElves, input: "nppdvjthqldpwncqszvftbrmjlhg", expectedResult: 6 },
-    { solution: dontAteElves, input: "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", expectedResult: 10 },
-    { solution: dontAteElves, input: "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", expectedResult: 11 },
-    { solution: justDontLikeEm, input: "mjqjpqmgbljsphdztnvjfqwrcgsmlb", expectedResult: 19 },
-    { solution: justDontLikeEm, input: "bvwbjplbgvbhsrlpgdmjqwftvncz", expectedResult: 23 },
-    { solution: justDontLikeEm, input: "nppdvjthqldpwncqszvftbrmjlhg", expectedResult: 23 },
-    { solution: justDontLikeEm, input: "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", expectedResult: 29 },
-    { solution: justDontLikeEm, input: "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", expectedResult: 26 },
+    { solution: dontAteElves, input: "mjqjpqmgbljsphdztnvjfqwrcgsmlb", expected: 7 },
+    { solution: dontAteElves, input: "bvwbjplbgvbhsrlpgdmjqwftvncz", expected: 5 },
+    { solution: dontAteElves, input: "nppdvjthqldpwncqszvftbrmjlhg", expected: 6 },
+    { solution: dontAteElves, input: "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", expected: 10 },
+    { solution: dontAteElves, input: "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", expected: 11 },
+    { solution: justDontLikeEm, input: "mjqjpqmgbljsphdztnvjfqwrcgsmlb", expected: 19 },
+    { solution: justDontLikeEm, input: "bvwbjplbgvbhsrlpgdmjqwftvncz", expected: 23 },
+    { solution: justDontLikeEm, input: "nppdvjthqldpwncqszvftbrmjlhg", expected: 23 },
+    { solution: justDontLikeEm, input: "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", expected: 29 },
+    { solution: justDontLikeEm, input: "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", expected: 26 },
 ]);
 
 if (!process.env.TESTS_ONLY) {
