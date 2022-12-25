@@ -33,7 +33,7 @@ export const runTests = (tests: Test[]): number => {
         if (result === test.expectedResult) {
             console.log(`Test ${index + 1} OK.`);
         } else {
-            console.log(`Test ${index + 1} FAILED. Expected:\n${test.expectedResult}\nGot:\n${result}.`);
+            console.log(`Test ${index + 1} FAILED. Expected:\n${test.expectedResult}\nGot:\n${result}`);
             resultCode = 1;
         }
     });
