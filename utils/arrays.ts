@@ -19,8 +19,11 @@ export const range3d = (from: Coords3d, to: Coords3d): Coords3d[] => {
                 .map(z => [x, y, z] as Coords3d)));
 }
 
-export const createArray2d = <T>(width: number, height: number, initializer: () => T): T[][] =>
-    Array.from({ length: width }, () => Array.from({ length: height }, initializer));
+export const createArray2d = <T>(
+    width: number,
+    height: number,
+    initializer: (x: number, y: number) => T): T[][] =>
+    Array.from({ length: width }, (_, x) => Array.from({ length: height }, (_, y) => initializer(x, y)));
 
 export const transpose = <T>(arr: T[][]) =>
     arr[0].map((_, col) => arr.map(row => row[col]));
@@ -40,22 +43,30 @@ export const getAllArrayPairs = <T>(arr: T[]): [T, T][] =>
 
 export type Coords2d = [x: number, y: number];
 
-export const coords2dKey = (coords: Coords2d): string =>
-    `${coords[0]}:${coords[1]}`;
+export const coords2dKey = ([x, y]: Coords2d): string =>
+    `${x}:${y}`;
 
 export type Coords3d = [x: number, y: number, z: number];
 
 export const coords3dKey = (coords: Coords3d): string =>
     `${coords[0]}:${coords[1]}:${coords[2]}`;
 
-export const getNeighbors3d = (c: Coords3d): Coords3d[] =>
+export const getNeighbors2d = ([x, y]: Coords2d): Coords2d[] =>
     [
-        [c[0] + 1, c[1], c[2]],
-        [c[0] - 1, c[1], c[2]],
-        [c[0], c[1] + 1, c[2]],
-        [c[0], c[1] - 1, c[2]],
-        [c[0], c[1], c[2] + 1],
-        [c[0], c[1], c[2] - 1],
+        [x + 1, y],
+        [x - 1, y],
+        [x, y + 1],
+        [x, y - 1],
+    ];
+
+export const getNeighbors3d = ([x, y, z]: Coords3d): Coords3d[] =>
+    [
+        [x + 1, y, z],
+        [x - 1, y, z],
+        [x, y + 1, z],
+        [x, y - 1, z],
+        [x, y, z + 1],
+        [x, y, z - 1],
     ];
 
 export const inArray2d = <T>(arr: T[][], x: number, y: number) =>
@@ -64,8 +75,10 @@ export const inArray2d = <T>(arr: T[][], x: number, y: number) =>
 export const inArray3d = <T>(arr: T[][][], [x, y, z]: Coords3d) =>
     x >= 0 && x < arr.length && y >= 0 && y < arr[x].length && z >= 0 && z < arr[x][y].length;
 
-export const circularIndex = <T>(arr: T[], index: number): number =>
-    (index % arr.length + arr.length) % arr.length;
+export const circularIndex = <T>(target: number | T[], index: number): number =>
+    typeof target === "number"
+        ? (index % target + target) % target
+        : (index % target.length + target.length) % target.length;
 
 export const multiArrayProduct = <T>(arr: T[][]): T[][] =>
     arr.length < 2
